@@ -10,7 +10,7 @@ import CTA from "@/components/home/cta";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col gap-24">
+    <main className="min-h-screen flex flex-col gap-12 md:gap-24">
       <Hero />
       <About />
       <Product />
