@@ -12,7 +12,7 @@ export default function Navbar() {
     const [isProductsOpen, setIsProductsOpen] = useState(false);
 
     const aboutSubMenu = [
-        { name: "About Sentinel Standards", href: "/about/" },
+        { name: "About Sentinel Standards", href: "/about/about-sentinel-standards" },
         { name: "About Dr. Anthony Prudden", href: "/about/" },
     ];
 
