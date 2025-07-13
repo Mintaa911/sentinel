@@ -13,7 +13,7 @@ export default function Navbar() {
 
     const aboutSubMenu = [
         { name: "About Sentinel Standards", href: "/about/about-sentinel-standards" },
-        { name: "About Dr. Anthony Prudden", href: "/about/" },
+        { name: "About Dr. Anthony Prudden", href: "/about/about-dr-anthony-prudden" },
     ];
 
     const productsSubMenu = [

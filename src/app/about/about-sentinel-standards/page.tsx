@@ -140,7 +140,7 @@ export default function About() {
       </div>
 
       <div className="relative">
-        <div className="hidden lg:block absolute lg:left-1/4 lg:translate-x-1/2 lg:-top-16 z-20 w-[500px] max-w-full">
+        <div className="hidden lg:block absolute lg:left-1/2 lg:translate-x-1 lg:-top-16 z-20 w-[500px] max-w-full">
           <Image src="/assets/about2.png" alt="Our Approach" width={500} height={300} className="object-cover w-full h-full rounded-xl" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2  lg:gap-16 border border-gray-200 rounded-xl shadow-lg bg-[#F1F3F5] px-4 lg:px-16 py-4 lg:py-10">
