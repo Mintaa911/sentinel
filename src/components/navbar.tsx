@@ -17,7 +17,7 @@ export default function Navbar() {
     ];
 
     const productsSubMenu = [
-        { name: "N-Glycans", href: "/products/" },
+        { name: "N-Glycans", href: "/products/n-glycans" },
     ];
 
     return (
