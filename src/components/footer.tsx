@@ -4,7 +4,7 @@ import { Input } from "./ui/input";
 
 export default function Footer() {
   return (
-    <footer className="relative bottom-0 mt-16 w-full bg-[#181F1C] text-white pt-10 md:pt-12 pb-6 px-4 md:px-0">
+    <footer className="relative bottom-0  mt-16 w-full bg-[#181F1C] text-white pt-10 md:pt-12 pb-6 px-4 md:px-0">
       <div className="w-full container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-start pb-6 md:pb-8">
         {/* Logo */}
         <div className="flex flex-col gap-3 md:gap-4">
