@@ -35,6 +35,7 @@ const contactSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactSchema>;
 
+
 export default function Contact() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -91,8 +92,8 @@ export default function Contact() {
         {/* Right Section (Form) */}
         <div className="flex-1 bg-[#F8F9FA] rounded-xl shadow-xl p-8 flex flex-col">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-1 text-gray-900">Let's Talk</h2>
-            <p className="text-gray-500 text-sm">Fill out the form and we'll get back to you as soon as possible</p>
+            <h2 className="text-2xl font-bold mb-1 text-gray-900">Let&apos;s Talk</h2>
+            <p className="text-gray-500 text-sm">Fill out the form and we&apos;ll get back to you as soon as possible</p>
           </div>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

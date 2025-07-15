@@ -3,6 +3,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import CTA from "@/components/home/cta";
 import Process from "@/components/home/process";
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "About Sentinel Standards",
+	description: "Sentinel Standards develops high-purity, isotopically labeled N-glycan reference material to support quantitative glycomics and proteomics research.",
+}
 
 export default function About() {
   const timeline = [

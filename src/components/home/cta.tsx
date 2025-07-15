@@ -7,7 +7,7 @@ export default function CTA() {
                 Ready to integrate high-quality glycans into your research?
             </h2>
             <p className="text-[#D1E6E6] text-sm md:text-base lg:text-lg text-center mb-6 md:mb-8 lg:mb-10 max-w-2xl">
-                Whether you're looking to explore available compounds or discuss a custom synthesis project – we're happy to help!
+                Whether you&apos;re looking to explore available compounds or discuss a custom synthesis project – we&apos;re happy to help!
             </p>
             <Button className="bg-white text-[#0C4A53] font-medium px-6 md:px-8 py-2 md:py-3 rounded-md w-fit text-base md:text-lg">
                 Contact us

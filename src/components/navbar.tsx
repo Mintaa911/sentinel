@@ -1,24 +1,46 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isAboutOpen, setIsAboutOpen] = useState(false);
-    const [isProductsOpen, setIsProductsOpen] = useState(false);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-    const aboutSubMenu = [
+    // Memoize submenu data to prevent unnecessary re-renders
+    const aboutSubMenu = useMemo(() => [
         { name: "About Sentinel Standards", href: "/about/about-sentinel-standards" },
         { name: "About Dr. Anthony Prudden", href: "/about/about-dr-anthony-prudden" },
-    ];
+    ], []);
 
-    const productsSubMenu = [
+    const productsSubMenu = useMemo(() => [
         { name: "N-Glycans", href: "/products/n-glycans" },
-    ];
+    ], []);
+
+    // Optimized event handlers using useCallback
+    const handleDropdownToggle = useCallback((dropdown: string) => {
+        setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+    }, [activeDropdown]);
+
+    const handleDropdownEnter = useCallback((dropdown: string) => {
+        setActiveDropdown(dropdown);
+    }, []);
+
+    const handleDropdownLeave = useCallback(() => {
+        setActiveDropdown(null);
+    }, []);
+
+    const handleMenuToggle = useCallback(() => {
+        setIsMenuOpen(!isMenuOpen);
+    }, [isMenuOpen]);
+
+    const handleMenuClose = useCallback(() => {
+        setIsMenuOpen(false);
+        setActiveDropdown(null);
+    }, []);
 
     return (
         <div className="fixed top-0 left-0 right-0 z-50 bg-white w-full">
@@ -44,36 +66,27 @@ export default function Navbar() {
                         <Button
                             variant="ghost"
                             className="text-[#0a1a2f] text-sm lg:text-base font-medium hover:underline hover:text-[#0C7792] p-0 h-auto"
-                            onClick={() => {
-                                setIsAboutOpen(!isAboutOpen)
-                                setIsProductsOpen(false)
-                            }}
-                            onMouseEnter={() => {
-                                setIsAboutOpen(true)
-                                setIsProductsOpen(false)
-                            }}
-
+                            onClick={() => handleDropdownToggle('about')}
+                            onMouseEnter={() => handleDropdownEnter('about')}
+                            aria-expanded={activeDropdown === 'about'}
+                            aria-haspopup="true"
                         >
                             About
                         </Button>
-                        {isAboutOpen && (
+                        {activeDropdown === 'about' && (
                             <div
                                 className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-md py-2 z-50"
-                                onMouseEnter={() => {
-                                    setIsAboutOpen(true)
-                                    setIsProductsOpen(false)
-                                }}
-                                onMouseLeave={() => {
-                                    setIsAboutOpen(false)
-                                    setIsProductsOpen(false)
-                                }}
+                                onMouseEnter={() => handleDropdownEnter('about')}
+                                onMouseLeave={handleDropdownLeave}
+                                role="menu"
                             >
                                 {aboutSubMenu.map((item) => (
                                     <Link
                                         key={item.name}
                                         href={item.href}
                                         className="block px-4 py-2 text-sm text-[#0a1a2f] hover:bg-gray-100 transition-colors duration-200"
-                                        onClick={() => setIsAboutOpen(false)}
+                                        onClick={handleMenuClose}
+                                        role="menuitem"
                                     >
                                         {item.name}
                                     </Link>
@@ -87,35 +100,27 @@ export default function Navbar() {
                         <Button
                             variant="ghost"
                             className="text-[#0a1a2f] text-sm lg:text-base font-medium hover:underline hover:text-[#0C7792] p-0 h-auto"
-                            onClick={() => {
-                                setIsProductsOpen(!isProductsOpen)
-                                setIsAboutOpen(false)
-                            }}
-                            onMouseEnter={() => {
-                                setIsProductsOpen(true)
-                                setIsAboutOpen(false)
-                            }}
+                            onClick={() => handleDropdownToggle('products')}
+                            onMouseEnter={() => handleDropdownEnter('products')}
+                            aria-expanded={activeDropdown === 'products'}
+                            aria-haspopup="true"
                         >
                             Products
                         </Button>
-                        {isProductsOpen && (
+                        {activeDropdown === 'products' && (
                             <div
                                 className="absolute top-full left-0 mt-2 w-64 bg-white shadow-lg rounded-md py-2 z-50"
-                                onMouseEnter={() => {
-                                    setIsProductsOpen(true)
-                                    setIsAboutOpen(false)
-                                }}
-                                onMouseLeave={() => {
-                                    setIsProductsOpen(false)
-                                    setIsAboutOpen(false)
-                                }}
+                                onMouseEnter={() => handleDropdownEnter('products')}
+                                onMouseLeave={handleDropdownLeave}
+                                role="menu"
                             >
                                 {productsSubMenu.map((item) => (
                                     <Link
                                         key={item.name}
                                         href={item.href}
                                         className="block px-4 py-2 text-sm text-[#0a1a2f] hover:bg-gray-100 transition-colors duration-200"
-                                        onClick={() => setIsProductsOpen(false)}
+                                        onClick={handleMenuClose}
+                                        role="menuitem"
                                     >
                                         {item.name}
                                     </Link>
@@ -135,8 +140,9 @@ export default function Navbar() {
                 {/* Mobile Menu Button */}
                 <button
                     className="md:hidden p-2"
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    onClick={handleMenuToggle}
                     aria-label="Toggle menu"
+                    aria-expanded={isMenuOpen}
                 >
                     <div className="w-6 h-6 flex flex-col justify-center items-center">
                         <span className={`block w-5 h-0.5 bg-[#0a1a2f] transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
@@ -153,7 +159,7 @@ export default function Navbar() {
                         <Link
                             href="/"
                             className="text-[#0a1a2f] text-base font-semibold"
-                            onClick={() => setIsMenuOpen(false)}
+                            onClick={handleMenuClose}
                         >
                             Home
                         </Link>
@@ -161,22 +167,24 @@ export default function Navbar() {
                         {/* About Mobile Section */}
                         <div className="space-y-2">
                             <div
-                                className="text-[#0a1a2f] text-base font-semibold p-0 h-auto flex justify-between w-full"
-                                onClick={() => setIsAboutOpen(!isAboutOpen)}
+                                className="text-[#0a1a2f] text-base font-semibold p-0 h-auto flex justify-between w-full cursor-pointer"
+                                onClick={() => handleDropdownToggle('about')}
+                                role="button"
+                                tabIndex={0}
+                                aria-expanded={activeDropdown === 'about'}
                             >
                                 About
-                                {isAboutOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                {activeDropdown === 'about' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                             </div>
-                            {isAboutOpen && (
+                            {activeDropdown === 'about' && (
                                 <div className="space-y-2">
                                     {aboutSubMenu.map((item) => (
                                         <div key={item.name} className="space-y-2">
                                             <Separator />
                                             <Link
-                                                key={item.name}
                                                 href={item.href}
                                                 className="block font-medium text-sm text-[#0a1a2f] ml-8"
-                                                onClick={() => setIsMenuOpen(false)}
+                                                onClick={handleMenuClose}
                                             >
                                                 {item.name}
                                             </Link>
@@ -189,22 +197,24 @@ export default function Navbar() {
                         {/* Products Mobile Section */}
                         <div className="space-y-2">
                             <div
-
-                                className="text-[#0a1a2f] text-base font-semibold p-0 h-auto flex justify-between w-full"
-                                onClick={() => setIsProductsOpen(!isProductsOpen)}
+                                className="text-[#0a1a2f] text-base font-semibold p-0 h-auto flex justify-between w-full cursor-pointer"
+                                onClick={() => handleDropdownToggle('products')}
+                                role="button"
+                                tabIndex={0}
+                                aria-expanded={activeDropdown === 'products'}
                             >
                                 Products
-                                {isProductsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                                {activeDropdown === 'products' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                             </div>
-                            {isProductsOpen && (
+                            {activeDropdown === 'products' && (
                                 <div className="space-y-2">
                                     {productsSubMenu.map((item) => (
                                         <div key={item.name} className="space-y-2">
-                                            <Separator className="" />
+                                            <Separator />
                                             <Link
                                                 href={item.href}
                                                 className="block font-medium text-sm text-[#0a1a2f] ml-8"
-                                                onClick={() => setIsMenuOpen(false)}
+                                                onClick={handleMenuClose}
                                             >
                                                 {item.name}
                                             </Link>
@@ -217,7 +227,7 @@ export default function Navbar() {
                         <Link
                             href="/blog"
                             className="text-[#0a1a2f] text-base font-semibold"
-                            onClick={() => setIsMenuOpen(false)}
+                            onClick={handleMenuClose}
                         >
                             Blog
                         </Link>
@@ -225,7 +235,7 @@ export default function Navbar() {
                         <Link
                             href="/contact"
                             className="text-[#0a1a2f] text-base font-semibold"
-                            onClick={() => setIsMenuOpen(false)}
+                            onClick={handleMenuClose}
                         >
                             Contact
                         </Link>
@@ -233,5 +243,5 @@ export default function Navbar() {
                 </div>
             )}
         </div>
-    )
+    );
 }

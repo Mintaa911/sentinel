@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import { Download } from "lucide-react";
+
 export default function Products() {
   const [activeTab, setActiveTab] = useState("significance");
 
@@ -96,7 +97,7 @@ export default function Products() {
                   Convincing evidence illustrates that developing disease states can result in aberrant N-glycosylation levels indicating an increased probability of pathologic outcome (1-3). Furthermore, development of certain cancers and inflammatory conditions have been shown to alter glycosylation patterns simultaneously on several proteins resulting in an altered glyco-serum profile (4-5). Since early detection remains the best option for increased patient survival rates, there is an urgent need to develop serum screening platforms to identify the emergence of a health threat (6).  In addition to identifying high-value targets for biomarker discovery, identifying aberrant protein glycosylation motifs provides therapeutic targets for antibody development.
                 </p>
                 <p>
-                  The fact that N-linked glycosylation modulates the activity of an underlying protein makes it a high-value target for functional studies and pharmaceutical design. Companies are increasingly incorporating Glycomics in their Quality by Design (QbD) analysis as promoted by the FDA (7). Due to the complex nature of protein glycosylation, this post-translational modification (PTM) is considered a critical quality attribute (CQA) which must be identified and measured at every step of a therapeutic's development process to ensure batch-to-batch similarity. Furthermore, The International Conference of Technical Requirements for Registration of Pharmaceuticals for Human Use (ICH) require characterization of glycosylation (8-9).
+                  The fact that N-linked glycosylation modulates the activity of an underlying protein makes it a high-value target for functional studies and pharmaceutical design. Companies are increasingly incorporating Glycomics in their Quality by Design (QbD) analysis as promoted by the FDA (7). Due to the complex nature of protein glycosylation, this post-translational modification (PTM) is considered a critical quality attribute (CQA) which must be identified and measured at every step of a therapeutic&apos;s development process to ensure batch-to-batch similarity. Furthermore, The International Conference of Technical Requirements for Registration of Pharmaceuticals for Human Use (ICH) require characterization of glycosylation (8-9).
                 </p>
               </div>
             </div>

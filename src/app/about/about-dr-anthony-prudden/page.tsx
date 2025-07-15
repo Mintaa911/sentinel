@@ -1,6 +1,12 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { QuoteIcon } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Dr. Anthony Prudden",
+	description: "Dr. Anthony Prudden is a synthetic carbohydrate chemist who received his PhD form the University of Georgia under the guidance of Dr. Geert-Jan Boons.",
+}
 
 export default function AboutDrAnthonyPrudden() {
 	return (

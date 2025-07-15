@@ -15,7 +15,7 @@ export default function Product() {
                 {/* Right: Description and Button */}
                 <div className="w-full lg:w-[50%] flex flex-col justify-center gap-6 md:gap-8">
                     <p className="text-[#181F1C] text-sm md:text-base mb-4 md:mb-6">
-                        Our flagship product is a library of high-purity, isotopically labeled N-glycans designed to be employed as internal standards for glycomic and proteomic analyses. Library members are individually packaged in a high-recovery, 1.5 mL glass vial containing 10 ug of material for seamless incorporation into the end-user's experimental workflow.
+                        Our flagship product is a library of high-purity, isotopically labeled N-glycans designed to be employed as internal standards for glycomic and proteomic analyses. Library members are individually packaged in a high-recovery, 1.5 mL glass vial containing 10 ug of material for seamless incorporation into the end-user&apos;s experimental workflow.
                     </p>
                     <Button 
                         variant="outline" 

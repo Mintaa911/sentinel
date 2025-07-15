@@ -12,7 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import BlogPostCard from "@/components/blog/BlogPostCard";
-import { ChevronDown } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: "Blog",
+	description: "Read our latest blog posts about Sentinel Standards and the latest in glycomics and proteomics.",
+}
 
 export default function Blog() {
   return (
