@@ -12,6 +12,8 @@ This project is built with:
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[Radix UI](https://www.radix-ui.com/)** - Accessible UI components
 - **[Lucide React](https://lucide.dev/)** - Beautiful icons
+- **[Sanity CMS](https://www.sanity.io/)** - Headless CMS for blog content management
+- **[next-sanity](https://www.sanity.io/docs/next-sanity)** - Sanity integration for Next.js
 
 ## Getting Started
 
@@ -23,6 +25,16 @@ npm install
 yarn install
 # or
 pnpm install
+```
+
+### Environment Variables
+
+Create a `.env.local` file in the root directory with your Sanity configuration:
+
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_API_VERSION=2024-01-01
 ```
 
 Then, run the development server:
@@ -51,7 +63,28 @@ src/
 │   ├── blog/             # Blog components
 │   └── ui/               # Reusable UI components
 └── lib/                  # Utility functions
+    └── sanity/           # Sanity CMS integration
+        ├── client.ts     # Sanity client configuration
+        ├── config.ts     # Sanity environment variables
+        └── queries/      # GROQ queries for blog posts
+            └── post.ts   # Post-specific queries
 ```
+
+## Sanity CMS Integration
+
+This project uses Sanity CMS for managing blog content. The integration includes:
+
+- **Content Management**: Blog posts, authors, and categories managed through Sanity Studio
+- **GROQ Queries**: Custom queries for fetching blog posts and related content
+- **Image Optimization**: Automatic image URL generation and optimization
+
+### Blog Features
+
+- Dynamic blog post pages with slug-based routing
+- Author information and images
+- Category filtering
+- Rich text content with Portable Text
+- Optimized images with Sanity's image URL builder
 
 ## Available Scripts
 
@@ -68,3 +101,5 @@ To learn more about the technologies used in this project:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs) - learn about Tailwind CSS
 - [Radix UI Documentation](https://www.radix-ui.com/docs) - learn about Radix UI components
+- [Sanity Documentation](https://www.sanity.io/docs) - learn about Sanity CMS
+- [GROQ Query Language](https://www.sanity.io/docs/groq) - learn about GROQ queries

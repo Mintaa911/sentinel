@@ -13,13 +13,18 @@ import {
 } from "@/components/ui/select";
 import BlogPostCard from "@/components/blog/BlogPostCard";
 import { Metadata } from "next";
+import { client } from "@/lib/sanity/client";
+import { postsQuery } from "@/lib/sanity/queries/post";
+import type { BlogPost } from "@/types";
 
 export const metadata: Metadata = {
 	title: "Blog",
 	description: "Read our latest blog posts about Sentinel Standards and the latest in glycomics and proteomics.",
 }
 
-export default function Blog() {
+export default async function Blog() {
+  const posts = await client.fetch(postsQuery, {start: 0, end: 20})
+  
   return (
     <main className="space-y-8 md:space-y-16">
 
@@ -67,8 +72,8 @@ export default function Blog() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
-            <BlogPostCard key={i} />
+          {posts.map((post: BlogPost) => (
+            <BlogPostCard key={post._id} post={post} />
           ))}
         </div>
       </section>

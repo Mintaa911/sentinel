@@ -3,31 +3,45 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { BlogPost } from "@/types";
 
-export default function BlogPostCard() {
+export default function BlogPostCard({ post }: { post: BlogPost }) {
   const router = useRouter();
+
+  const categoryTitle = post.categories?.[0]?.title || "Uncategorized";
+  const excerpt = post.excerpt || "Read the full article.";
+  const readingTime = Math.ceil(post.body.length / 5);
+
   return (
     <div className="">
-      <div className="relative w-full">
+      <div className="relative w-full h-[200px] md:h-[250px]">
         <Image
-          src="/assets/blog-cover.png"
-          alt="Blog post cover"
-          width={400}
-          height={400}
-          className="object-cover w-full h-full"
-          
+          src={post.mainImage}
+          alt={`Cover image for ${post.title}`}
+          fill
+          className="object-cover rounded"
         />
         <div className="absolute top-3 left-3 flex gap-2">
-          <Badge className="bg-white text-[#07343C] px-3 py-1 rounded-full">Category</Badge>
+          <Badge className="bg-white text-[#07343C] px-3 py-1 rounded-full">
+            {categoryTitle}
+          </Badge>
         </div>
         <div className="absolute top-3 right-3 flex gap-2">
-          <Badge className="bg-white text-[#07343C] px-3 py-1 rounded-full">10 min</Badge>
+          <Badge className="bg-white text-[#07343C] px-3 py-1 rounded-full">
+            {readingTime} min
+          </Badge>
         </div>
       </div>
       <div className="pt-4 pb-2 ">
-        <h3 className="font-semibold text-lg mb-1 text-[#07343C]">Blog title heading will go here</h3>
-        <p className="text-sm text-muted-foreground mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim...</p>
-        <Button variant="link" className="p-0 h-auto text-[#178CA4] text-sm" onClick={() => router.push('/blog/1')}>Read more</Button>
+        <h3 className="font-semibold text-lg mb-1 text-[#07343C]">{post.title}</h3>
+        <p className="text-sm text-muted-foreground mb-2">{excerpt}</p>
+        <Button
+          variant="link"
+          className="p-0 h-auto text-[#178CA4] text-sm"
+          onClick={() => router.push(`/blog/${post.slug}`)}
+        >
+          Read more
+        </Button>
       </div>
     </div>
   );
