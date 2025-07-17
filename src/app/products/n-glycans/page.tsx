@@ -17,7 +17,7 @@ export default function Products() {
       </div>
       <section className="flex flex-col md:flex-row gap-4  md:gap-12">
         <div className="w-[750px] max-w-full">
-          <Image src="/assets/landing-product.png" alt="N-Glycans Product" width={750} height={750} className="rounded-xl w-full h-full object-cover" />
+          <Image src="/assets/landing-product.png" alt="N-Glycans Product" width={750} height={750} className="rounded-xl w-auto h-full object-cover" />
         </div>
         <div className="flex flex-col gap-6">
           <h1 className="text-4xl md:text-5xl font-semibold mb-2">N-Glycans</h1>

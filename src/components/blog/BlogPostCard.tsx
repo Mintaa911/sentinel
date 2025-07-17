@@ -19,7 +19,9 @@ export default function BlogPostCard({ post }: { post: BlogPost }) {
           src={post.mainImage}
           alt={`Cover image for ${post.title}`}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover rounded"
+          priority
         />
         <div className="absolute top-3 left-3 flex gap-2">
           <Badge className="bg-white text-[#07343C] px-3 py-1 rounded-full">

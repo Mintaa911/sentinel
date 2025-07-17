@@ -52,7 +52,7 @@ export default function Navbar() {
                             alt="Sentinel Standards Logo"
                             width={100}
                             height={26}
-                            className="md:w-[120px] md:h-[32px]"
+                            className="w-auto h-auto"
                             priority
                         />
                         <span className="sr-only">Sentinel Standards</span>

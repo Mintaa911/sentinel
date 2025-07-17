@@ -33,3 +33,7 @@ export const postsQuery = `
     excerpt
   }
 `
+
+export const postsCountQuery = `
+  count(*[_type == "post"])
+`

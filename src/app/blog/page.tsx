@@ -1,3 +1,4 @@
+'use client'
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,19 +13,108 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import BlogPostCard from "@/components/blog/BlogPostCard";
-import { Metadata } from "next";
 import { client } from "@/lib/sanity/client";
-import { postsQuery } from "@/lib/sanity/queries/post";
+import { postsQuery, postsCountQuery } from "@/lib/sanity/queries/post";
 import type { BlogPost } from "@/types";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis
+} from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
 
-export const metadata: Metadata = {
-	title: "Blog",
-	description: "Read our latest blog posts about Sentinel Standards and the latest in glycomics and proteomics.",
-}
+export default function Blog() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const postsPerPage = 16;
 
-export default async function Blog() {
-  const posts = await client.fetch(postsQuery, {start: 0, end: 20})
-  
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      const start = (currentPage - 1) * postsPerPage;
+      const end = start + postsPerPage;
+      
+      try {
+        const [postsData, totalCount] = await Promise.all([
+          client.fetch(postsQuery, { start, end }),
+          client.fetch(postsCountQuery)
+        ]);
+        
+        setPosts(postsData);
+        setTotalPosts(totalCount);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [currentPage]);
+
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      }
+    }
+    
+    return pages;
+  };
+
+  if (loading) {
+    return (
+      <main className="space-y-8 md:space-y-16">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading posts...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="space-y-8 md:space-y-16">
 
@@ -47,6 +137,7 @@ export default async function Blog() {
             alt="Blog hero"
             width={1000}
             height={1000}
+            priority
             className="w-full rounded-t-lg md:rounded-t-none md:rounded-r-lg"
           />
         </div>
@@ -77,6 +168,56 @@ export default async function Blog() {
           ))}
         </div>
       </section>
+      
+      {/* Pagination section */}
+      {totalPages > 1 && (
+        <section className="flex justify-center">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(currentPage - 1);
+                  }}
+                  className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+              
+              {getPageNumbers().map((page, index) => (
+                <PaginationItem key={index}>
+                  {page === 'ellipsis' ? (
+                    <PaginationEllipsis />
+                  ) : (
+                    <PaginationLink
+                      href="#"
+                      isActive={currentPage === page}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePageChange(page as number);
+                      }}
+                    >
+                      {page}
+                    </PaginationLink>
+                  )}
+                </PaginationItem>
+              ))}
+              
+              <PaginationItem>
+                <PaginationNext 
+                  href="#" 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handlePageChange(currentPage + 1);
+                  }}
+                  className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </section>
+      )}
     </main>
   )
 }
